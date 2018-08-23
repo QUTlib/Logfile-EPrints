@@ -53,7 +53,6 @@ sub new { bless { type => '' }, shift }
 sub fulltext {
 	my ($self,$hit) = @_;
 	$self->{type} = 'fulltext';
-#	warn $hit->homepage." => ".$hit->institution."\n" if $hit->homepage;
 #	warn "fulltext: " . $hit->country . "/" . $hit->identifier . "/" . $hit->datetime . "\n";
 }
 

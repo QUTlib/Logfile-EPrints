@@ -101,14 +101,6 @@ Country that the IP is probably in, must call load_country_db first.
 
 Organisation that the IP belongs to, must call load_org_db first.
 
-=item institution()
-
-Returns the title from the homepage()
-
-=item homepage()
-
-Returns the homepage for the user's network.
-
 =back
 
 =cut
@@ -231,57 +223,6 @@ sub datetime
 
 sub _time2datetime {
 	strftime("%Y%m%d%H%M%S",gmtime($_[0]));
-}
-
-sub institution
-{
-	my( $self ) = @_;
-	return $self->{_institution} if exists($self->{_institution});
-	@$self{qw(_institution _homepage)} = addr2institution($self->hostname);
-	$self->{_institution};
-}
-
-sub homepage
-{
-	my( $self ) = @_;
-	return $self->{_homepage} if exists($self->{_homepage});
-	@$self{qw(_institution _homepage)} = addr2institution($self->hostname);
-	$self->{_homepage};
-}
-
-sub addr2institution
-{
-	my( $addr ) = @_;
-
-	# Can't do anything unless the address is defined
-	return () unless defined $addr;
-
-	# Get the domain name
-	return () unless $addr =~ /([^\.]+)\.([^\.]+)\.([^\.]+)$/;
-	my $uri = 'http://www.' . ((length($3) > 2 || length($2) > 3) ?
-		join('.', $2, $3) :
-		join('.', $1, $2, $3));
-	$uri .= '/';
-	return ($INST_CACHE{$uri},$uri) if defined $INST_CACHE{$uri};
-	return () if exists($INST_CACHE{$uri});
-
-	# Retrieve the home page
-	$UA->max_size( 2048 );
-	my $r = $UA->get($uri);
-	$UA->max_size( undef );
-	if( $r->is_error )
-	{
-		warn "Error retrieving homepage ($uri): " . $r->message;
-		$INST_CACHE{$uri} = undef;
-		return ();
-	}
-
-	return () unless $r->content =~ /<\s*title[^>]*>([^<]+)<\s*\/\s*title\s*>/is;
-	my $title = $1;
-	$title =~ s/\r\n/ /sg;
-	$title =~ s/^\s+//;
-	$title =~ s/(?:\-)?\s+$//;
-	return ($INST_CACHE{$uri} = $title,$uri);
 }
 
 package Logfile::EPrints::Hit::Combined;

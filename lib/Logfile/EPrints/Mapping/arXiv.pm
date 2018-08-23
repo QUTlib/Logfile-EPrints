@@ -91,9 +91,8 @@ Logfile::EPrints::Mapping::arXiv - Parse Apache logs from an arXiv mirror
   sub AUTOLOAD { ... }
   sub fulltext {
   	my ($self,$hit) = @_;
-	printf("%s from %s requested %s (%s)\n",
+	printf("%s requested %s (%s)\n",
 	  $hit->hostname||$hit->address,
-	  $hit->institution||'Unknown',
 	  $hit->page,
 	  $hit->identifier,
 	);

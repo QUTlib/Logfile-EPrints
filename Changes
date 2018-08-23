@@ -2,6 +2,7 @@ Revision history for Perl extension Logfile::EPrints.
 
 1.21
 	- Change Geo::IP to GeoIP2
+	- Remove instituion/homepage methods, as they are based on a flawed assumption
 
 1.20
 	- Simplified bracketed logs parsing (single regexp)
