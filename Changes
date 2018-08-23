@@ -1,5 +1,8 @@
 Revision history for Perl extension Logfile::EPrints.
 
+1.21
+	- Change Geo::IP to GeoIP2
+
 1.20
 	- Simplified bracketed logs parsing (single regexp)
 	- Will now croak if a date is unparseable

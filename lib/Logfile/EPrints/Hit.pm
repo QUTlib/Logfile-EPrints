@@ -121,16 +121,9 @@ use Socket;
 
 use vars qw( $AUTOLOAD %INST_CACHE );
 
-use vars qw( $GEO_IP_CLASS $ORG_DB $COUNTRY_DB );
-for(qw( Geo::IP Geo::IP::PurePerl ))
-{
-	eval "use $_";
-	unless($@)
-	{
-		$GEO_IP_CLASS = $_;
-		last;
-	}
-}
+use vars qw( $HAVE_GEOIP2 $ORG_DB $COUNTRY_DB );
+use GeoIP2;
+$HAVE_GEOIP2 = 1 unless $@;
 
 use vars qw( $UA );
 require LWP::UserAgent;
@@ -167,10 +160,10 @@ sub load_country_db
 {
 	my( $filename, $flags ) = @_;
 
-	Carp::croak "Requires Geo::IP or Geo::IP::PurePerl" unless $GEO_IP_CLASS;
+	Carp::croak "Requires GeoIP2" unless $HAVE_GEOIP2;
 	Carp::croak "Missing filename argument" unless @_;
 
-	$COUNTRY_DB = $GEO_IP_CLASS->open( @_ );
+	$COUNTRY_DB = GeoIP2::Database::Reader->new( file => $filename, locales => ['en'] );
 
 	no warnings;
 	*country = \&_country;
@@ -180,10 +173,10 @@ sub load_org_db
 {
 	my( $filename, $flags ) = @_;
 
-	Carp::croak "Requires Geo::IP or Geo::IP::PurePerl" unless $GEO_IP_CLASS;
+	Carp::croak "Requires GeoIP2" unless $HAVE_GEOIP2;
 	Carp::croak "Missing filename argument" unless @_;
 
-	$ORG_DB = $GEO_IP_CLASS->open( @_ );
+	$ORG_DB = GeoIP2::Database::Reader->new( file => $filename, locales => ['en'] );
 
 	no warnings;
 	*organisation = \&_organisation;
@@ -207,7 +200,7 @@ sub country
 
 sub _country
 {
-	$_[0]->{country} ||= $COUNTRY_DB->country_code_by_addr($_[0]->address);
+	$_[0]->{country} ||= $COUNTRY_DB->country( ip => $_[0]->address )->country->iso_code;
 }
 
 sub organisation
@@ -217,7 +210,7 @@ sub organisation
 
 sub _organisation
 {
-	$_[0]->{organisation} ||= Encode::decode('iso-8859-1', $ORG_DB->org_by_name($_[0]->address));
+	$_[0]->{organisation} ||= Encode::decode('iso-8859-1', $ORG_DB->enterprise( ip => $_[0]->address )->city->name);
 }
 
 sub hostname

@@ -26,7 +26,7 @@ use Logfile::EPrints::Mapping::EPrints;
 # Maintain backwards compatibility
 our @ISA = qw( Logfile::EPrints::Mapping::EPrints );
 
-our $VERSION = '1.20';
+our $VERSION = '1.21';
 
 1;
 
