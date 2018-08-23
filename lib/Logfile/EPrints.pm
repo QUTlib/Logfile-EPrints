@@ -126,14 +126,30 @@ L<HTTPD::Log::Filter>, L<Apache::ParseLog>, L<Apache::LogRegex>, L<Logfile::Acce
 
 =head1 AUTHOR
 
+=over 4
+
+=item *
+
 Timothy D Brody, E<lt>tdb01r@ecs.soton.ac.ukE<gt>
+
+=item *
+
+Matthew Kerwin, E<lt>matthew.kerwin@qut.edu.auE<gt>
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2005 by Timothy D Brody
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.6 or,
-at your option, any later version of Perl 5 you may have available.
+Copyright (C) 2018, Matthew Kerwin and Queensland University of Technology
+
+This file is part of Logfile::EPrints-bis
+
+Logfile::EPrints-bis is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Logfile::EPrints-bis is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with Logfile::EPrints-bis. If not, see https://www.gnu.org/licenses/.
 
 =cut
