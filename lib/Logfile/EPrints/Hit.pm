@@ -114,7 +114,7 @@ use Socket;
 use vars qw( $AUTOLOAD %INST_CACHE );
 
 use vars qw( $HAVE_GEOIP2 $ORG_DB $COUNTRY_DB );
-use GeoIP2;
+use GeoIP2::Database::Reader;
 $HAVE_GEOIP2 = 1 unless $@;
 
 use vars qw( $UA );
